@@ -130,8 +130,21 @@ public class PokerTableController {
 				ImageView img = new ImageView(new Image(getClass().getResourceAsStream(strCard), 75, 75, true, true));
 
 				ImageView i = (ImageView) h1P1.getChildren().get(iCardDrawn - 1);
-				ImageView iCardFaceDown = (ImageView) HboxCommonArea.getChildren().get(0);
-				final ParallelTransition transitionForward = createTransition(i, iCardFaceDown,
+	
+				double CardDealtX = (double) (i.getLayoutX() + i.getLayoutBounds().getMinX());
+				double CardDealtY = (double) (i.getLayoutY() + i.getLayoutBounds().getMinY());
+				
+				ImageView iCardFaceDown = (ImageView) HboxCommonArea.getChildren().get(0);				
+				
+				double CardDeckX = (double) (iCardFaceDown.getLayoutX() + iCardFaceDown.getLayoutBounds().getMinX());
+				double CardDeckY = (double) (iCardFaceDown.getLayoutY() + iCardFaceDown.getLayoutBounds().getMinY());
+				
+				Point2D pntCardDealt = new Point2D(CardDealtX, CardDealtY);
+				Point2D pntCardDeck = new Point2D(CardDeckX, CardDeckY);
+				
+				
+
+				final ParallelTransition transitionForward = createTransition(pntCardDeck, pntCardDealt, i, iCardFaceDown,
 						new Image(getClass().getResourceAsStream(strCard), 75, 75, true, true));
 
 				transitionForward.play();
@@ -191,7 +204,7 @@ public class PokerTableController {
 
 	}
 
-	private ParallelTransition createTransition(final ImageView iv, final ImageView ivStart, final Image img) {
+	private ParallelTransition createTransition(final Point2D pntStartPoint, final Point2D pntEndPoint, final ImageView iv, final ImageView ivStart, final Image img) {
 		
 		FadeTransition fadeOutTransition = new FadeTransition(Duration.seconds(.25), iv);
 		fadeOutTransition.setFromValue(1.0);
@@ -210,26 +223,35 @@ public class PokerTableController {
 		fadeInTransition.setFromValue(0.0);
 		fadeInTransition.setToValue(1.0);
 
-		/*
-		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), ivStart);
+		ImageView imgTransCard = new ImageView(
+				new Image(getClass().getResourceAsStream("/res/img/b2fh.png"), 75, 75, true, true));
 
+		imgTransCard.setX(pntStartPoint.getX());
+		imgTransCard.setY(pntStartPoint.getY());
+		APMainScreen.getChildren().add(imgTransCard);
 		
+		
+		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), ivStart);
 		translateTransition.setFromX(0);
-		translateTransition.setToX(ivX - ivStartX1);
+		translateTransition.setToX(pntEndPoint.getX() -pntStartPoint.getX());
 		translateTransition.setFromY(0);
-		translateTransition.setToY(ivY - ivStartY1);
+		translateTransition.setToY(pntEndPoint.getY() -pntStartPoint.getY());
+		
 		
 		translateTransition.setCycleCount(2);
 		translateTransition.setAutoReverse(false);
-*/
-//		RotateTransition rotateTransition = new RotateTransition(Duration.millis(150), ivStart);
-//		rotateTransition.setByAngle(90f);
-//		rotateTransition.setCycleCount(1);
-//		rotateTransition.setAutoReverse(false);
+
+		RotateTransition rotateTransition = new RotateTransition(Duration.millis(150), imgTransCard);
+		rotateTransition.setByAngle(90f);
+		rotateTransition.setCycleCount(1);
+		rotateTransition.setAutoReverse(false);
 		
 		ParallelTransition parallelTransition = new ParallelTransition();
 		parallelTransition.getChildren().addAll(fadeOutTransition, fadeInTransition);
 
+		
+		APMainScreen.getChildren().clear();
+		
 		return parallelTransition;
 	}
 }
