@@ -38,6 +38,9 @@ import pokerBase.Rule;
 public class PokerTableController {
 
 	boolean bP1Sit = false;
+	boolean bP2Sit = false;
+	boolean bP3Sit = false;
+	boolean bP4Sit = false;
 
 	// Reference to the main application.
 	private MainApp mainApp;
@@ -58,12 +61,39 @@ public class PokerTableController {
 
 	@FXML
 	public TextField txtP1Name;
+	
+	@FXML
+	public TextField txtP2Name;
+	
+	@FXML
+	public TextField txtP3Name;
+	
+	@FXML
+	public TextField txtP4Name;
 
 	@FXML
 	public Label lblP1Name;
+	
+	@FXML
+	public Label lblP2Name;
+	
+	@FXML
+	public Label lblP3Name;
+	
+	@FXML
+	public Label lblP4Name;
 
 	@FXML
 	public ToggleButton btnP1SitLeave;
+	
+	@FXML
+	public ToggleButton btnP2SitLeave;
+	
+	@FXML
+	public ToggleButton btnP3SitLeave;
+	
+	@FXML
+	public ToggleButton btnP4SitLeave;
 
 	@FXML
 	public Button btnDraw;
@@ -111,6 +141,75 @@ public class PokerTableController {
 			txtP1Name.setVisible(true);
 			lblP1Name.setVisible(false);
 			bP1Sit = false;
+		}
+
+	}
+	
+	@FXML
+	private void handleP2SitLeave() {
+
+		int iPlayerPosition = 2;
+
+		if (bP2Sit == false) {
+			Player p = new Player(txtP2Name.getText(), iPlayerPosition);
+			mainApp.AddPlayerToTable(p);
+			lblP2Name.setText(txtP2Name.getText());
+			lblP2Name.setVisible(true);
+			btnP2SitLeave.setText("Leave");
+			txtP2Name.setVisible(false);
+			bP2Sit = true;
+		} else {
+			mainApp.RemovePlayerFromTable(iPlayerPosition);
+			btnP2SitLeave.setText("Sit");
+			txtP2Name.setVisible(true);
+			lblP2Name.setVisible(false);
+			bP2Sit = false;
+		}
+
+	}
+	
+	@FXML
+	private void handleP3SitLeave() {
+
+		int iPlayerPosition = 3;
+
+		if (bP3Sit == false) {
+			Player p = new Player(txtP3Name.getText(), iPlayerPosition);
+			mainApp.AddPlayerToTable(p);
+			lblP3Name.setText(txtP3Name.getText());
+			lblP2Name.setVisible(true);
+			btnP3SitLeave.setText("Leave");
+			txtP3Name.setVisible(false);
+			bP3Sit = true;
+		} else {
+			mainApp.RemovePlayerFromTable(iPlayerPosition);
+			btnP3SitLeave.setText("Sit");
+			txtP3Name.setVisible(true);
+			lblP3Name.setVisible(false);
+			bP3Sit = false;
+		}
+
+	}
+	
+	@FXML
+	private void handleP4SitLeave() {
+
+		int iPlayerPosition = 4;
+
+		if (bP4Sit == false) {
+			Player p = new Player(txtP4Name.getText(), iPlayerPosition);
+			mainApp.AddPlayerToTable(p);
+			lblP4Name.setText(txtP4Name.getText());
+			lblP4Name.setVisible(true);
+			btnP4SitLeave.setText("Leave");
+			txtP4Name.setVisible(false);
+			bP4Sit = true;
+		} else {
+			mainApp.RemovePlayerFromTable(iPlayerPosition);
+			btnP4SitLeave.setText("Sit");
+			txtP4Name.setVisible(true);
+			lblP4Name.setVisible(false);
+			bP4Sit = false;
 		}
 
 	}
